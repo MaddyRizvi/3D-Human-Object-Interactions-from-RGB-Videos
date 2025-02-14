@@ -230,7 +230,7 @@ class PoseOptimizer(nn.Module):
         silhouette = silhouette.view(self.num_frames, self.num_hypos, h, w, c)
         
         # Calculate the silhouette loss
-        sil_loss, _ = losses.silhouette_loss(silhouette[..., 3], batch['mask_ref'].unsqueeze(1)) #torch.mean((image[..., 3] - batch['mask_ref'].unsqueeze(1)) ** 2, dim=(2, 3)).view(-1)
+        sil_loss, _ = losses.silhouette_loss(silhouette[..., 3], batch['mask_ref'].unsqueeze(1) + 1e-6) #torch.mean((image[..., 3] - batch['mask_ref'].unsqueeze(1)) ** 2, dim=(2, 3)).view(-1)
         sil_dice = losses.dice_loss(silhouette[:, 0, :, :, 3], batch['mask_ref'])
 
         # Calculate parts silhoette losses
